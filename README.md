@@ -41,9 +41,8 @@ Este projeto é uma aplicação web de gerenciamento de tarefas que permite aos 
 - **Visualização de Tarefas:** Monitore o status e detalhes das tarefas em uma interface intuitiva.
 
 ## Template Base
-## Template Base
-Este projeto foi desenvolvido utilizando como base o template [Black Dashboard React](https://www.creative-tim.com/product/black-dashboard-react/?AFFILIATE=52980#) da Creative Tim. A documentação completa do template pode ser acessada [aqui](https://demos.creative-tim.com/black-dashboard-react/#/documentation/overview). Consulte-a para obter informações detalhadas sobre a estrutura, componentes e personalizações disponíveis no template.
-
+Este projeto foi desenvolvido utilizando como base o template [Now UI Dashboard React](https://demos.creative-tim.com/now-ui-dashboard-react/#/admin/dashboard) da Creative Tim.
+A documentação completa do template pode ser encontrada [aqui](https://demos.creative-tim.com/now-ui-dashboard-react/#/documentation/introduction). Consulte-a para obter informações detalhadas sobre a estrutura, componentes e personalizações disponíveis no template.
 
 ## Licença
 Este projeto é licenciado sob a [Licença MIT](LICENSE).
