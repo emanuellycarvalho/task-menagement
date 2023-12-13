@@ -27,6 +27,14 @@ import UserForm from "views/user/UserForm.js";
 
 var dashRoutes = [
   {
+    path: "/user/add",
+    name: "User Profile",
+    icon: "users_single-02",
+    component: <UserForm user={null} create={true}/>,
+    layout: "/admin",
+    sidebar: false,
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     icon: "design_app",

@@ -73,7 +73,7 @@ function Dashboard() {
                     </Link>
 
                     <Link 
-                      to={'/admin/user-page'} 
+                      to={'/admin/user/add'} 
                       className="btn btn-info ml-2"
                     >
                       Add teammate
