@@ -39,6 +39,7 @@ import {
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import { Link } from "react-router-dom";
 
 import {
   dashboardPanelChart,
@@ -60,7 +61,26 @@ function Dashboard() {
         <Row>
           <Card>
               <CardHeader>
-                <CardTitle tag="h4">Olá, Name!</CardTitle>
+                <Row className="ml-2">
+                  <CardTitle tag="h4">Hello, Name!</CardTitle>
+                  <Col className="mr-2" align="right">
+                    <Link 
+                      to={'#'} 
+                      className="btn btn-success"
+                    >
+                      Add task
+                      <i className="ml-2 now-ui-icons ui-1_simple-add"/>
+                    </Link>
+
+                    <Link 
+                      to={'/admin/user-page'} 
+                      className="btn btn-info ml-2"
+                    >
+                      Add teammate
+                      <i className="ml-2 now-ui-icons users_single-02"/>
+                    </Link> 
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody>
                 <Alert
