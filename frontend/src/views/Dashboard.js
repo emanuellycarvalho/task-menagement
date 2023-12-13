@@ -65,12 +65,12 @@ function Dashboard() {
                   <CardTitle tag="h4">Hello, Name!</CardTitle>
                   <Col className="mr-2" align="right">
                     <Link 
-                      to={'#'} 
-                      className="btn btn-success"
+                      to={'/admin/organization/add'} 
+                      className="btn btn-warning ml-2"
                     >
-                      Add task
-                      <i className="ml-2 now-ui-icons ui-1_simple-add"/>
-                    </Link>
+                      Add organization
+                      <i className="ml-2 now-ui-icons business_badge"/>
+                    </Link> 
 
                     <Link 
                       to={'/admin/user/add'} 
@@ -79,6 +79,13 @@ function Dashboard() {
                       Add teammate
                       <i className="ml-2 now-ui-icons users_single-02"/>
                     </Link> 
+                    <Link 
+                      to={'#'} 
+                      className="btn btn-success ml-2"
+                    >
+                      Add task
+                      <i className="ml-2 now-ui-icons ui-1_simple-add"/>
+                    </Link>
                   </Col>
                 </Row>
               </CardHeader>

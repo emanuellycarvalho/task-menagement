@@ -24,6 +24,7 @@ import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import UserForm from "views/user/UserForm.js";
+import OrganizationForm from "views/organization/OrganizationForm.js";
 
 var dashRoutes = [
   {
@@ -31,6 +32,14 @@ var dashRoutes = [
     name: "User Profile",
     icon: "users_single-02",
     component: <UserForm user={null} create={true}/>,
+    layout: "/admin",
+    sidebar: false,
+  },
+  {
+    path: "/organization/add",
+    name: "User Profile",
+    icon: "users_single-02",
+    component: <OrganizationForm organization={null} create={true}/>,
     layout: "/admin",
     sidebar: false,
   },
