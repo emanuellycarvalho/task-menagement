@@ -4,8 +4,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\Organization;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Controllers\OrganizationController;
 
-class OrganizationCrudTest extends TestCase
+class OrganizationTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +23,7 @@ class OrganizationCrudTest extends TestCase
 
         $response = $this->postJson('/api/organizations', $data);
 
-        $response->assertStatus(201); // Status 201 significa Created
+        $response->assertStatus(201);
         $this->assertDatabaseHas('organizations', $data);
     }
 
@@ -32,7 +33,7 @@ class OrganizationCrudTest extends TestCase
 
         $response = $this->getJson("/api/organizations/{$organization->id}");
 
-        $response->assertStatus(200); // Status 200 significa OK
+        $response->assertStatus(200);
         $response->assertJson($organization->toArray());
     }
 
@@ -47,7 +48,7 @@ class OrganizationCrudTest extends TestCase
 
         $response = $this->putJson("/api/organizations/{$organization->id}", $updatedData);
 
-        $response->assertStatus(200); // Status 200 significa OK
+        $response->assertStatus(200);
         $this->assertDatabaseHas('organizations', $updatedData);
     }
 
@@ -57,7 +58,7 @@ class OrganizationCrudTest extends TestCase
 
         $response = $this->deleteJson("/api/organizations/{$organization->id}");
 
-        $response->assertStatus(204); // Status 204 significa No Content
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('organizations', ['id' => $organization->id]);
     }
 }
