@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Services\{{Model}};
+
+use App\Models\{{Model}};
+use App\Repositories\{{Model}}\{{Model}}Repository;
+use Illuminate\Database\Eloquent\Collection;
+
+class {{Model}}Service
+{
+    private ${{model}}Repository;
+
+    public function __construct({{Model}}Repository ${{model}}Repository)
+    {
+        $this->{{model}}Repository = ${{model}}Repository;
+    }
+
+    public function getAll{{Model}}s(): Collection
+    {
+        return $this->{{model}}Repository->getAll();
+    }
+
+    public function get{{Model}}ById(string $id): ?{{Model}}
+    {
+        return $this->{{model}}Repository->getById($id);
+    }
+
+    public function create{{Model}}(array $data): {{Model}}
+    {
+        return $this->{{model}}Repository->create($data);
+    }
+
+    public function update{{Model}}({{Model}} ${{model}}, array $data): bool
+    {
+        return $this->{{model}}Repository->update(${{model}}, $data);
+    }
+
+    public function delete{{Model}}({{Model}} ${{model}}): bool
+    {
+        return $this->{{model}}Repository->delete(${{model}});
+    }
+}
