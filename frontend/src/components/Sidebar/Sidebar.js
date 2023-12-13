@@ -69,7 +69,7 @@ function Sidebar(props) {
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {
-            if (prop.redirect) return null;
+            if (prop.redirect || !prop.sidebar) return null;
             return (
               <li
                 className={

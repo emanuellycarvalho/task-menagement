@@ -23,6 +23,7 @@ import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
+import UserForm from "views/user/UserForm.js";
 
 var dashRoutes = [
   {
@@ -31,6 +32,7 @@ var dashRoutes = [
     icon: "design_app",
     component: <Dashboard />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/icons",
@@ -38,6 +40,7 @@ var dashRoutes = [
     icon: "design_image",
     component: <Icons />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/maps",
@@ -45,6 +48,7 @@ var dashRoutes = [
     icon: "location_map-big",
     component: <Maps />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/notifications",
@@ -52,6 +56,7 @@ var dashRoutes = [
     icon: "ui-1_bell-53",
     component: <Notifications />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/user-page",
@@ -59,6 +64,7 @@ var dashRoutes = [
     icon: "users_single-02",
     component: <UserPage />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/extended-tables",
@@ -66,6 +72,7 @@ var dashRoutes = [
     icon: "files_paper",
     component: <TableList />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/typography",
@@ -73,6 +80,7 @@ var dashRoutes = [
     icon: "design-2_ruler-pencil",
     component: <Typography />,
     layout: "/admin",
+    sidebar: true,
   },
   {
     pro: true,
@@ -81,6 +89,7 @@ var dashRoutes = [
     icon: "objects_spaceship",
     component: <Upgrade />,
     layout: "/admin",
+    sidebar: true,
   },
 ];
 export default dashRoutes;
