@@ -29,7 +29,7 @@ class {{Model}}Test extends TestCase
         $response = $this->getJson("/api/{{model}}s/{${{model}}->id}");
 
         $response->assertStatus(200);
-        $response->assertJson(${{model}}->toArray());
+        $response->assertJsonFragment(${{model}}->toArray());
     }
 
     public function test_can_update_{{model}}()

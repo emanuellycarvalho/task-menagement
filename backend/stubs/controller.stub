@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{{Model}};
 use App\Services\{{Model}}Service;
+use Illuminate\Http\JsonResponse;
 
 
 class {{Model}}Controller extends Controller
@@ -19,12 +20,12 @@ class {{Model}}Controller extends Controller
     public function index(): JsonResponse
     {
         ${{model}}s = $this->{{model}}Service->getAll{{Model}}s();
-        return response()->jsonResponseSuccess(${{model}}s, 'Success', 200);
+        return response()->jsonResponseSuccess(${{model}}s);
     }
 
     public function show({{Model}} ${{model}}): JsonResponse
     {
-        return response()->jsonResponseSuccess(${{model}}, 'Success', 200);
+        return response()->jsonResponseSuccess(${{model}});
     }
 
     public function store({{Model}}Request $request): JsonResponse

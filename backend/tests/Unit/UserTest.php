@@ -38,7 +38,7 @@ class UserTest extends TestCase
         $response = $this->getJson("/api/users/{$user->id}");
 
         $response->assertStatus(200);
-        $response->assertJson($user->toArray());
+        $response->assertJsonFragment($user->toArray());
     }
 
     public function test_can_update_user()

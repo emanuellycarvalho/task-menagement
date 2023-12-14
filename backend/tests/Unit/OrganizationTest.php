@@ -34,7 +34,7 @@ class OrganizationTest extends TestCase
         $response = $this->getJson("/api/organizations/{$organization->id}");
 
         $response->assertStatus(200);
-        $response->assertJson($organization->toArray());
+        $response->assertJsonFragment($organization->toArray());
     }
 
     public function test_can_update_organization()
