@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Services\OrganizationService;
 use App\Http\Requests\OrganizationRequest;
 
@@ -19,12 +21,12 @@ class OrganizationController extends Controller
     public function index(): JsonResponse
     {
         $organizations = $this->organizationService->getAllOrganizations();
-        return response()->jsonResponseSuccess($organizations, 'Success', 200);
+        return response()->jsonResponseSuccess($organizations);
     }
 
     public function show(Organization $organization): JsonResponse
     {
-        return response()->jsonResponseSuccess($organization, 'Success', 200);
+        return response()->jsonResponseSuccess($organization);
     }
 
     public function store(OrganizationRequest $request): JsonResponse
