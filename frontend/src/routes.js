@@ -27,7 +27,7 @@ import UserForm from "views/user/UserForm.js";
 import OrganizationForm from "views/organization/OrganizationForm.js";
 import OrganizationList from "views/organization/OrganizationList.js";
 
-var dashRoutes = [
+const dashRoutes = [
   {
     path: "/user/add",
     name: "User Profile",
