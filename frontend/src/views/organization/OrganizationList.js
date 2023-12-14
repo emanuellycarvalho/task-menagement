@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import NotificationAlert from "react-notification-alert";
 import axios from '../../axios';
 import {
   Button,
@@ -11,26 +12,52 @@ import {
   Col,
 } from 'reactstrap';
 import PanelHeader from 'components/PanelHeader/PanelHeader.js';
-import { thead } from 'variables/general';
+
+const fetchOrganizations = async (setOrganizations) => {
+  try {
+    const response = await axios.get('/organizations');
+    setOrganizations(response.data.data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
 
 function OrganizationList() {
+  const notificationAlert = React.useRef();
   const [organizations, setOrganizations] = useState([]);
 
   useEffect(() => {
-    const fetchOrganizations = async () => {
-      try {
-        const response = await axios.get('/organizations');
-        setOrganizations(response.data.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+    fetchOrganizations(setOrganizations);
+  }, []);
+
+  const notify = (message, type) => {
+    const options = {
+      place: 'tc',
+      message: message,
+      type: type,
+      icon: "now-ui-icons ui-1_bell-53",
+      autoDismiss: 7,
     };
 
-    fetchOrganizations();
-  }, []);
+    notificationAlert.current.notificationAlert(options);
+  };
+
+  const handleDeleteOrganization = (organizationId) => {
+    if (window.confirm('Are you sure you want to delete this organization?')) {
+      axios.delete(`/organizations/${organizationId}`)
+        .then(response => {
+          notify('Organization deleted successfully', 'success');
+          fetchOrganizations(setOrganizations);
+        })
+        .catch(error => {
+          notify('Error on delete organizations', 'danger');
+        });
+    }
+  };
 
   return (
     <>
+      <NotificationAlert ref={notificationAlert} />
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
@@ -56,20 +83,21 @@ function OrganizationList() {
                       <td>{organization.category}</td>
                       <td>{organization.email}</td>
                       <td className="text-right">
-                        <Button
-                          className="btn-sm"
-                          color="info"
-                          type="button"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          className="btn-sm ml-1"
-                          color="danger"
-                          type="button"
-                        >
-                          Delete
-                        </Button>
+                      <Button
+                        className="btn-sm"
+                        color="info"
+                        type="button"
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        className="btn-sm ml-1"
+                        color="danger"
+                        type="button"
+                        onClick={() => handleDeleteOrganization(organization.id)}
+                      >
+                        Delete
+                      </Button>
                       </td>
                     </tr>
                   ))}
