@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\UserService;
+use App\Http\Requests\UserRequest;
 
 
 class UserController extends Controller
@@ -19,12 +20,12 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $users = $this->userService->getAllUsers();
-        return response()->jsonResponseSuccess($users, 'Success', 200);
+        return response()->jsonResponseSuccess($users, 200);
     }
 
     public function show(User $user): JsonResponse
     {
-        return response()->jsonResponseSuccess($user, 'Success', 200);
+        return response()->jsonResponseSuccess($user, 200);
     }
 
     public function store(UserRequest $request): JsonResponse
