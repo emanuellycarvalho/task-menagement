@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrganizationRequest extends FormRequest
+class OrganizationRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +21,15 @@ class OrganizationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'category' => 'required',
-            'email' => 'required|email|unique:organizations,email,' . ($this->organization ? $this->organization->id : 'NULL'),
+            'email' => 'required|email|unique:organizations,email',
             'address' => 'nullable',
             'city' => 'nullable',
             'country' => 'nullable',
         ];
+
+        return $this->updateLogic($rules);
     }
 }
