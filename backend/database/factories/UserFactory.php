@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Organization;
+use App\Models\AccessLevel;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -26,6 +27,7 @@ class UserFactory extends Factory
     {
         $name = $this->faker->firstName;
         $organizations = Organization::pluck('id')->toArray();
+        $access_levels = AccessLevel::pluck('id')->toArray();
 
         return [
             'first_name' => $name,
@@ -40,6 +42,7 @@ class UserFactory extends Factory
             'country' => $this->faker->country,
             'remember_token' => Str::random(10),
             'organization_id' => $this->faker->randomElement($organizations),
+            'access_level_id' => $this->faker->randomElement($access_levels),
         ];
     }
 

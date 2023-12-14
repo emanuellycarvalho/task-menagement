@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
-            $table->foreignId('organization_id')->nullable()->constrained('organizations');
+            $table->foreignId('organization_id')->nullable()->constrained('organizations')->onDelete('set null');
+            $table->foreignId('access_level_id')->nullable()->constrained('access_levels')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -3,6 +3,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Testing\RefreshDatabase;

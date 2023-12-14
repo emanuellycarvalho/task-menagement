@@ -26,7 +26,9 @@ class User extends Authenticatable
         'password',
         'address',
         'city',
-        'country'
+        'country',
+        'organization_id',
+        'access_level_id',
     ];
 
     /**
@@ -55,5 +57,13 @@ class User extends Authenticatable
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Get the access level that the user has.
+     */
+    public function access_level()
+    {
+        return $this->belongsTo(AccessLevel::class);
     }
 }
