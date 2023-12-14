@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
 import NotificationAlert from "react-notification-alert";
 import axios from '../../axios';
 import {
@@ -116,7 +115,7 @@ function OrganizationList() {
             <OrganizationForm organization={organizationToEdit} create={false}/>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={handleUpdateOrganization}>
+            <Button color="info" onClick={handleUpdateOrganization}>
               Save
             </Button>
             <Button color="secondary" onClick={toggleEditModal}>

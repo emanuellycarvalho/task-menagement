@@ -1,25 +1,8 @@
-/*!
-
-=========================================================
-* Now UI Dashboard React - v1.5.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-// react plugin used to create charts
 import { Line } from "react-chartjs-2";
-
-// reactstrap components
+import { Link } from "react-router-dom";
+import React, {  useState } from 'react';
+import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import OrganizationForm from "views/organization/OrganizationForm.js";
 import {
   Alert,
   Card,
@@ -32,20 +15,30 @@ import {
   Table,
   Button,
   Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   FormGroup,
   Input,
   UncontrolledTooltip,
 } from "reactstrap";
-
-// core components
-import PanelHeader from "components/PanelHeader/PanelHeader.js";
-import { Link } from "react-router-dom";
 
 import {
   dashboardPanelChart,
 } from "variables/charts.js";
 
 function Dashboard() {
+  const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
+
+  const toggleCreateOrganizationModal = () => {
+    setCreateOrganizationModal(!createOrganizationModal);
+  };
+
+  const handleSaveOrganization = () => {
+
+  }
+
   return (
     <>
       <PanelHeader
@@ -64,13 +57,13 @@ function Dashboard() {
                 <Row className="ml-2">
                   <CardTitle tag="h4">Hello, Name!</CardTitle>
                   <Col className="mr-2" align="right">
-                    <Link 
-                      to={'/admin/organization/add'} 
+                    <Button
                       className="btn btn-warning ml-2"
+                      onClick={() => toggleCreateOrganizationModal()}
                     >
                       Add organization
                       <i className="ml-2 now-ui-icons business_badge"/>
-                    </Link> 
+                    </Button> 
 
                     <Link 
                       to={'/admin/user/add'} 
@@ -426,6 +419,21 @@ function Dashboard() {
           </Col>
         </Row>
       </div>
+
+      <Modal isOpen={createOrganizationModal} toggle={toggleCreateOrganizationModal}>
+        <ModalHeader toggle={toggleCreateOrganizationModal}>Add Organization</ModalHeader>
+        <ModalBody>
+          <OrganizationForm organization={null} create={true}/>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="info" onClick={handleSaveOrganization}>
+            Save
+          </Button>
+          <Button color="secondary" onClick={toggleCreateOrganizationModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }

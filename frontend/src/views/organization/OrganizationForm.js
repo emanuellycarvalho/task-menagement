@@ -20,7 +20,7 @@ function OrganizationForm({organization, create}) {
                   <label>Name*</label>
                   <Input
                     required
-                    defaultValue={organization ? organization.name : ""}
+                    defaultValue={!create ? organization.name : ""}
                     placeholder="Name"
                     type="text"
                   />
@@ -31,7 +31,7 @@ function OrganizationForm({organization, create}) {
                   <label>Category</label>
                   <Input
                     required
-                    defaultValue={organization ? organization.category : ""}
+                    defaultValue={!create ? organization.category : ""}
                     placeholder="Category"
                     type="text"
                   />
@@ -46,7 +46,7 @@ function OrganizationForm({organization, create}) {
                   </label>
                   <Input
                     required
-                    defaultValue={organization ? organization.email : ""} 
+                    defaultValue={!create ? organization.email : ""} 
                     placeholder="example@example.com" 
                     type="email" 
                   />
@@ -56,7 +56,7 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>Address</label>
                   <Input
-                    defaultValue={organization ? organization.address : ""}
+                    defaultValue={!create ? organization.address : ""}
                     placeholder="Home Address"
                     type="text"
                   />
@@ -68,7 +68,7 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>City</label>
                   <Input
-                    defaultValue={organization ? organization.city : ""}
+                    defaultValue={!create ? organization.city : ""}
                     placeholder="City"
                     type="text"
                   />
@@ -78,7 +78,7 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>Country</label>
                   <Input
-                    defaultValue={organization ? organization.country : ""}
+                    defaultValue={!create ? organization.country : ""}
                     placeholder="Country"
                     type="text"
                   />
