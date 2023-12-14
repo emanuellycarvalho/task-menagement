@@ -16,9 +16,11 @@ class OrganizationFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = ['Technology', 'Healthcare', 'Retail'];
+
         return [
             'name' => $this->faker->company,
-            'category' => $this->faker->word,
+            'category' => $this->faker->randomElement($categories),
             'email' => $this->faker->unique()->safeEmail,
             'address' => $this->faker->streetAddress,
             'city' => $this->faker->city,
