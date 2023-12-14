@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\{{Model}};
+namespace App\Services;
 
 use App\Models\{{Model}};
-use App\Repositories\{{Model}}\{{Model}}Repository;
+use App\Repositories\{{Model}}Repository;
 use Illuminate\Database\Eloquent\Collection;
 
 class {{Model}}Service

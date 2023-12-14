@@ -34,7 +34,7 @@ class CreateRepository extends Command
             return;
         }
 
-        $path = base_path('app/Repositories/' . $model . '.php');
+        $path = base_path('app/Repositories/' . $repository . '.php');
         $stub = file_get_contents(base_path('stubs/repository.stub'));
 
         if (!is_dir(dirname($path))) {

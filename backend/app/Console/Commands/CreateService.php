@@ -34,7 +34,7 @@ class CreateService extends Command
             return;
         }
 
-        $path = base_path('app/Services/' . $model . '.php');
+        $path = base_path('app/Services/' . $service . '.php');
         $stub = file_get_contents(base_path('stubs/service.stub'));
 
         if (file_exists($path)) {

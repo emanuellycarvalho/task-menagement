@@ -37,8 +37,8 @@ class CreateEntityResources extends Command
             'Controller' => "php artisan make:controller {$model}Controller --api",
             'Request' => "php artisan make:request {$model}Request",
             'Policy' => "php artisan make:policy {$model}Policy",
-            'Service' => "php artisan make:service {$model}Service",
-            'Repository' => "php artisan make:repository {$model}Repository",
+            'Service' => "php artisan make:service {$model}",
+            'Repository' => "php artisan make:repository {$model}",
             'Factory' => "php artisan make:factory {$model}Factory --model={$model}",
             'Test' => "php artisan make:test {$model}Test --unit",
         ]);

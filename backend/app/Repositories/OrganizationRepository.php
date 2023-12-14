@@ -9,8 +9,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrganizationRepository extends BaseRepository
 {
-    public function __construct(OrganizationRepository $organizationRepository)
+    public function __construct(Organization $organization)
     {
-        $this->model = $organizationRepository;
+        $this->model = $organization;
     }
 }
