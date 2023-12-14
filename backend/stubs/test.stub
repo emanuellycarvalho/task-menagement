@@ -1,0 +1,59 @@
+<?php
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use App\Models\{{Model}};
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Controllers\{{Model}}Controller;
+
+class {{Model}}Test extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_can_create_{{model}}()
+    {
+        $data = [
+
+        ];
+
+        $response = $this->postJson('/api/{{model}}s', $data);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('{{model}}s', $data);
+    }
+
+    public function test_can_read_{{model}}()
+    {
+        ${{model}} = {{Model}}::factory()->create();
+
+        $response = $this->getJson("/api/{{model}}s/{${{model}}->id}");
+
+        $response->assertStatus(200);
+        $response->assertJson(${{model}}->toArray());
+    }
+
+    public function test_can_update_{{model}}()
+    {
+        ${{model}} = {{Model}}::factory()->create();
+
+        $updatedData = [
+
+        ];
+
+        $response = $this->putJson("/api/{{model}}s/{${{model}}->id}", $updatedData);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('{{model}}s', $updatedData);
+    }
+
+    public function test_can_delete_{{model}}()
+    {
+        ${{model}} = {{Model}}::factory()->create();
+
+        $response = $this->deleteJson("/api/{{model}}s/{${{model}}->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('{{model}}s', ['id' => ${{model}}->id]);
+    }
+}
+

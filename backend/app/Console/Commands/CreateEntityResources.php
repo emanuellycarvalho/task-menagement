@@ -34,13 +34,13 @@ class CreateEntityResources extends Command
             'Migration' => "php artisan make:migration create_" . strtolower($model) . "s_table",
             'Model' => "php artisan make:model {$model}",
             'Seeder' => "php artisan make:seed {$model}Seeder",
-            'Controller' => "php artisan make:controller {$model}Controller --api",
+            'Controller' => "php artisan make:controllerStub {$model}",
             'Request' => "php artisan make:request {$model}Request",
             'Policy' => "php artisan make:policy {$model}Policy",
             'Service' => "php artisan make:service {$model}",
             'Repository' => "php artisan make:repository {$model}",
             'Factory' => "php artisan make:factory {$model}Factory --model={$model}",
-            'Test' => "php artisan make:test {$model}Test --unit",
+            'Test' => "php artisan make:testStub {$model}",
         ]);
     }
 

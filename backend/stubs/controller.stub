@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\{{Model}};
+use App\Services\{{Model}}Service;
+
+
+class {{Model}}Controller extends Controller
+{
+    protected ${{model}}Service;
+
+    public function __construct({{Model}}Service ${{model}}Service)
+    {
+        $this->{{model}}Service = ${{model}}Service;
+    }
+
+    public function index(): JsonResponse
+    {
+        ${{model}}s = $this->{{model}}Service->getAll{{Model}}s();
+        return response()->jsonResponseSuccess(${{model}}s, 'Success', 200);
+    }
+
+    public function show({{Model}} ${{model}}): JsonResponse
+    {
+        return response()->jsonResponseSuccess(${{model}}, 'Success', 200);
+    }
+
+    public function store({{Model}}Request $request): JsonResponse
+    {
+        ${{model}} = $this->{{model}}Service->create{{Model}}($request->all());
+        return response()->jsonResponseSuccess(${{model}}, 'Success on create', 201);
+    }
+
+    public function update({{Model}}Request $request, {{Model}} ${{model}}): JsonResponse
+    {
+        ${{model}} = $this->{{model}}Service->update{{Model}}(${{model}}, $request->all());
+        return response()->jsonResponseSuccessNoData('Success on update', 200);
+    }
+
+    public function destroy({{Model}} ${{model}}): JsonResponse
+    {
+        $this->{{model}}Service->delete{{Model}}(${{model}});
+        return response()->jsonResponseSuccessNoData('Success on delete', 204);
+    }
+}
