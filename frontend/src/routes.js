@@ -25,6 +25,7 @@ import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import UserForm from "views/user/UserForm.js";
 import OrganizationForm from "views/organization/OrganizationForm.js";
+import OrganizationList from "views/organization/OrganizationList.js";
 
 var dashRoutes = [
   {
@@ -46,8 +47,16 @@ var dashRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "design_app",
+    icon: "business_chart-bar-32",
     component: <Dashboard />,
+    layout: "/admin",
+    sidebar: true,
+  },
+  {
+    path: "/organizations",
+    name: "Organizations",
+    icon: "business_badge",
+    component: <OrganizationList />,
     layout: "/admin",
     sidebar: true,
   },
