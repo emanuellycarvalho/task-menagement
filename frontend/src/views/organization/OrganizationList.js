@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import NotificationAlert from "react-notification-alert";
 import axios from '../../axios';
 import {
@@ -10,36 +11,41 @@ import {
   Table,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from 'reactstrap';
 import PanelHeader from 'components/PanelHeader/PanelHeader.js';
+import OrganizationForm from "views/organization/OrganizationForm.js";
 
 const fetchOrganizations = async (setOrganizations) => {
   try {
     const response = await axios.get('/organizations');
     setOrganizations(response.data.data);
   } catch (error) {
-    console.error('Error:', error);
+    notify('Error: ' + errror, 'danger');
   }
 };
 
 function OrganizationList() {
-  const notificationAlert = React.useRef();
   const [organizations, setOrganizations] = useState([]);
+  const [editModal, setEditModal] = useState(false);
+  const [organizationToEdit, setOrganizationToEdit] = useState(null);
+  const notificationAlert = React.useRef();
 
   useEffect(() => {
     fetchOrganizations(setOrganizations);
   }, []);
 
-  const notify = (message, type) => {
-    const options = {
-      place: 'tc',
-      message: message,
-      type: type,
-      icon: "now-ui-icons ui-1_bell-53",
-      autoDismiss: 7,
-    };
+  const toggleEditModal = (organization) => {
+    setOrganizationToEdit(organization);
+    setEditModal(!editModal);
+  };
 
-    notificationAlert.current.notificationAlert(options);
+  const handleUpdateOrganization = () => {
+    // Lógica para atualizar a organização
+    setEditModal(false);
   };
 
   const handleDeleteOrganization = (organizationId) => {
@@ -83,11 +89,7 @@ function OrganizationList() {
                       <td>{organization.category}</td>
                       <td>{organization.email}</td>
                       <td className="text-right">
-                      <Button
-                        className="btn-sm"
-                        color="info"
-                        type="button"
-                      >
+                      <Button className="btn-sm" color="info" onClick={() => toggleEditModal(organization)}>
                         Edit
                       </Button>
                       <Button
@@ -107,6 +109,21 @@ function OrganizationList() {
             </Card>
           </Col>
         </Row>
+
+        <Modal isOpen={editModal} toggle={toggleEditModal}>
+          <ModalHeader toggle={toggleEditModal}>Edit Organization</ModalHeader>
+          <ModalBody>
+            <OrganizationForm organization={organizationToEdit} create={false}/>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={handleUpdateOrganization}>
+              Save
+            </Button>
+            <Button color="secondary" onClick={toggleEditModal}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
       </div>
     </>
   );
