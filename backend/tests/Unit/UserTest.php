@@ -3,8 +3,9 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
@@ -13,7 +14,15 @@ class UserTest extends TestCase
     public function test_can_create_user()
     {
         $data = [
-
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'nickname' => 'johndoe',
+            'username' => 'john_doe',
+            'email' => 'john.doe@example.com',
+            'password' => Hash::make('password123'),
+            'address' => '123 Main Street',
+            'city' => 'Cityville',
+            'country' => 'Countryland',
         ];
 
         $response = $this->postJson('/api/users', $data);
@@ -37,7 +46,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $updatedData = [
-
+            'username' => 'john.doe',
         ];
 
         $response = $this->putJson("/api/users/{$user->id}", $updatedData);
