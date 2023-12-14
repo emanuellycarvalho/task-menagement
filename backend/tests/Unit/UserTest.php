@@ -13,6 +13,8 @@ class UserTest extends TestCase
 
     public function test_can_create_user()
     {
+        $organization = Organization::factory()->create();
+
         $data = [
             'first_name' => 'John',
             'last_name' => 'Doe',
@@ -23,6 +25,7 @@ class UserTest extends TestCase
             'address' => '123 Main Street',
             'city' => 'Cityville',
             'country' => 'Countryland',
+            'organization_id' => $organization->id,
         ];
 
         $response = $this->postJson('/api/users', $data);

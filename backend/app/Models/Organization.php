@@ -17,4 +17,12 @@ class Organization extends Model
         'city',
         'country',
     ];
+
+    /**
+     * Get the users associated with the organization.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
