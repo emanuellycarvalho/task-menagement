@@ -18,6 +18,7 @@ import {
 } from 'reactstrap';
 import PanelHeader from 'components/PanelHeader/PanelHeader.js';
 import OrganizationForm from "components/Organization/OrganizationForm.js";
+import OrganizationModal from "components/Organization/OrganizationModal.js";
 
 const fetchOrganizations = async (setOrganizations) => {
   try {
@@ -31,13 +32,20 @@ const fetchOrganizations = async (setOrganizations) => {
 function OrganizationList() {
   const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
   const [editOrganizationModal, setEditOrganizationModal] = useState(false);
+  const [viewOrganizationModal, setViewOrganizationModal] = useState(false);
   const [organizationToEdit, setOrganizationToEdit] = useState(null);
+  const [organizationToView, setOrganizationToView] = useState(null);
   const [organizations, setOrganizations] = useState([]);
   const notificationAlert = React.useRef();
 
   useEffect(() => {
     fetchOrganizations(setOrganizations);
   }, []);
+
+  const toggleViewOrganizationModal = (organization) => {
+    setOrganizationToView(organization);
+    setViewOrganizationModal(!viewOrganizationModal);
+  };
 
   const toggleEditOrganizationModal = (organization) => {
     setOrganizationToEdit(organization);
@@ -126,7 +134,18 @@ function OrganizationList() {
                       <td>{organization.category}</td>
                       <td>{organization.email}</td>
                       <td className="text-right">
-                      <Button className="btn-sm" color="info" onClick={() => toggleEditOrganizationModal(organization)}>
+                      <Button 
+                        className="btn-sm" 
+                        color="primary" 
+                        onClick={() => toggleViewOrganizationModal(organization)}
+                      >
+                        View
+                      </Button>
+                      <Button 
+                        className="btn-sm ml-1" 
+                        color="info" 
+                        onClick={() => toggleEditOrganizationModal(organization)}
+                      >
                         Edit
                       </Button>
                       <Button
@@ -170,6 +189,13 @@ function OrganizationList() {
             />
           </ModalBody>
         </Modal>
+
+        <OrganizationModal
+          isOpen={viewOrganizationModal} 
+          toggle={toggleViewOrganizationModal}
+          organization={organizationToView}
+        />
+        
       </div>
     </>
   );
