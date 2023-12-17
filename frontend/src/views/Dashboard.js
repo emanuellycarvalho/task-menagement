@@ -5,7 +5,7 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import OrganizationForm from "views/organization/OrganizationForm.js";
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
-import axios from '../axios';
+import { createOrganization } from '../stores/organizationStore';
 
 import {
   Alert,
@@ -33,7 +33,6 @@ import {
 
 function Dashboard() {
   const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
-  const [organizations, setOrganizations] = useState([]);
 
   const notificationAlert = React.createRef();
 
@@ -46,18 +45,15 @@ function Dashboard() {
     setCreateOrganizationModal(!createOrganizationModal);
   };
 
-  const handleSaveOrganization = (organizationData) => {
-    console.log(organizationData)
-    axios.post('/organizations', organizationData)
-      .then(response => {
-        notify('Organization created successfully', 'success');
-        setOrganizations([...organizations, response.data]);
-        toggleCreateOrganizationModal();
-      })
-      .catch(error => {
-        notify('Error creating organization: ' + error, 'danger');
-      });
-  }
+  const handleSaveOrganization = async (organizationData) => {
+    try {
+      await createOrganization(organizationData);
+      notify('Organization created successfully', 'success');
+      toggleCreateOrganizationModal();
+    } catch (error) {
+      notify('Error creating organization: ' + error, 'success');
+    }
+  };
 
   return (
     <>
