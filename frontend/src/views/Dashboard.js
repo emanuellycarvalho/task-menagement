@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import React, {  useState } from 'react';
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import OrganizationForm from "views/organization/OrganizationForm.js";
+import NotificationAlert from "react-notification-alert";
+import { notificationSettings } from "notify";
+import axios from '../axios';
+
 import {
   Alert,
   Card,
@@ -18,7 +22,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   FormGroup,
   Input,
   UncontrolledTooltip,
@@ -30,17 +33,35 @@ import {
 
 function Dashboard() {
   const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
+  const [organizations, setOrganizations] = useState([]);
+
+  const notificationAlert = React.createRef();
+
+  const notify = (message, type, icon = "ui-1_bell-53") => {
+    const options = notificationSettings(message, type, icon);
+    notificationAlert.current.notificationAlert(options);    
+  };
 
   const toggleCreateOrganizationModal = () => {
     setCreateOrganizationModal(!createOrganizationModal);
   };
 
-  const handleSaveOrganization = () => {
-
+  const handleSaveOrganization = (organizationData) => {
+    console.log(organizationData)
+    axios.post('/organizations', organizationData)
+      .then(response => {
+        notify('Organization created successfully', 'success');
+        setOrganizations([...organizations, response.data]);
+        toggleCreateOrganizationModal();
+      })
+      .catch(error => {
+        notify('Error creating organization: ' + error, 'danger');
+      });
   }
 
   return (
     <>
+      <NotificationAlert ref={notificationAlert} />
       <PanelHeader
         size="lg"
         content={
@@ -423,16 +444,13 @@ function Dashboard() {
       <Modal isOpen={createOrganizationModal} toggle={toggleCreateOrganizationModal}>
         <ModalHeader toggle={toggleCreateOrganizationModal}>Add Organization</ModalHeader>
         <ModalBody>
-          <OrganizationForm organization={null} create={true}/>
+          <OrganizationForm 
+            create={true} 
+            organization={null} 
+            onSave={handleSaveOrganization} 
+            onCancel={toggleCreateOrganizationModal}
+          />
         </ModalBody>
-        <ModalFooter>
-          <Button color="info" onClick={handleSaveOrganization}>
-            Save
-          </Button>
-          <Button color="secondary" onClick={toggleCreateOrganizationModal}>
-            Cancel
-          </Button>
-        </ModalFooter>
       </Modal>
     </>
   );
