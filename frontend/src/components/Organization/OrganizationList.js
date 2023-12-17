@@ -17,7 +17,7 @@ import {
   ModalBody,
 } from 'reactstrap';
 import PanelHeader from 'components/PanelHeader/PanelHeader.js';
-import OrganizationForm from "views/organization/OrganizationForm.js";
+import OrganizationForm from "components/Organization/OrganizationForm.js";
 
 const fetchOrganizations = async (setOrganizations) => {
   try {

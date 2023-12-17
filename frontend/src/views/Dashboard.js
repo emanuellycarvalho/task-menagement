@@ -2,7 +2,7 @@ import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import React, {  useState } from 'react';
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
-import OrganizationForm from "views/organization/OrganizationForm.js";
+import OrganizationForm from "components/Organization/OrganizationForm.js";
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
 import { createOrganization } from '../stores/organizationStore';

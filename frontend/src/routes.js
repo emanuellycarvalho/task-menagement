@@ -23,9 +23,9 @@ import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
-import UserForm from "views/user/UserForm.js";
-import OrganizationForm from "views/organization/OrganizationForm.js";
-import OrganizationList from "views/organization/OrganizationList.js";
+import UserForm from "components/User/UserForm.js";
+import OrganizationForm from "components/Organization/OrganizationForm.js";
+import OrganizationList from "components/Organization/OrganizationList.js";
 
 const dashRoutes = [
   {
