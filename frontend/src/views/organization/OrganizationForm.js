@@ -11,6 +11,7 @@ import {
 
 function OrganizationForm({ organization, create, onSave, onCancel }) {
   const [formData, setFormData] = useState({
+    id: '',
     name: '',
     category: '',
     email: '',
@@ -22,6 +23,7 @@ function OrganizationForm({ organization, create, onSave, onCancel }) {
   useEffect(() => {
     if (!create) {
       setFormData({
+        id: organization.id || '',
         name: organization.name || '',
         category: organization.category || '',
         email: organization.email || '',

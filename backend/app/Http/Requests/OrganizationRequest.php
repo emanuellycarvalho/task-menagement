@@ -24,11 +24,15 @@ class OrganizationRequest extends BaseRequest
         $rules = [
             'name' => 'required',
             'category' => 'required',
-            'email' => 'required|email|unique:organizations,email',
+            'email' => 'required|email' ,
             'address' => 'nullable',
             'city' => 'nullable',
             'country' => 'nullable',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['email'] .= '|unique:organizations,email';
+        }
 
         return $this->updateLogic($rules);
     }

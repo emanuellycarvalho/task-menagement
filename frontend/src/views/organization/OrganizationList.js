@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
+import { createOrganization, deleteOrganization, updateOrganization } from '../../stores/organizationStore';
 import axios from '../../axios';
 import {
   Button,
@@ -14,7 +15,6 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
 } from 'reactstrap';
 import PanelHeader from 'components/PanelHeader/PanelHeader.js';
 import OrganizationForm from "views/organization/OrganizationForm.js";
@@ -29,40 +29,61 @@ const fetchOrganizations = async (setOrganizations) => {
 };
 
 function OrganizationList() {
-  const [organizations, setOrganizations] = useState([]);
-  const [editModal, setEditModal] = useState(false);
+  const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
+  const [editOrganizationModal, setEditOrganizationModal] = useState(false);
   const [organizationToEdit, setOrganizationToEdit] = useState(null);
+  const [organizations, setOrganizations] = useState([]);
   const notificationAlert = React.useRef();
 
   useEffect(() => {
     fetchOrganizations(setOrganizations);
   }, []);
 
-  const toggleEditModal = (organization) => {
+  const toggleEditOrganizationModal = (organization) => {
     setOrganizationToEdit(organization);
-    setEditModal(!editModal);
+    setEditOrganizationModal(!editOrganizationModal);
   };
 
-  const handleUpdateOrganization = () => {
-    // Lógica para atualizar a organização
-    setEditModal(false);
+  const toggleCreateOrganizationModal = () => {
+    setCreateOrganizationModal(!createOrganizationModal);
   };
-
+  
   const notify = (message, type, icon = "ui-1_bell-53") => {
     const options = notificationSettings(message, type, icon);
     notificationAlert.current.notificationAlert(options);    
   };
 
-  const handleDeleteOrganization = (organizationId) => {
-    if (window.confirm('Are you sure you want to delete this organization?')) {
-      axios.delete(`/organizations/${organizationId}`)
-        .then(response => {
-          notify('Organization deleted successfully', 'success');
-          fetchOrganizations(setOrganizations);
-        })
-        .catch(error => {
-          notify('Error on delete organizations', 'danger');
-        });
+  const handleUpdateOrganization = async (organizationData) => {
+    try {
+      await updateOrganization(organizationData);
+      notify('Organization updated successfully', 'success');
+      fetchOrganizations(setOrganizations);
+      toggleEditOrganizationModal(organizationData);
+    } catch (error) {
+      notify('Error updating organization: ' + error, 'success');
+    }
+  };
+
+  const handleSaveOrganization = async (organizationData) => {
+    try {
+      await createOrganization(organizationData);
+      notify('Organization created successfully', 'success');
+      fetchOrganizations(setOrganizations);
+      toggleCreateOrganizationModal();
+    } catch (error) {
+      notify('Error creating organization: ' + error, 'success');
+    }
+  };
+
+  const handleDeleteOrganization = async (organizationId) => {
+    if (window.confirm('Are you sure you want to delete this organization?')){
+      try {
+        await deleteOrganization(organizationId);
+        fetchOrganizations(setOrganizations);
+        notify('Organization deleted successfully', 'success');
+      } catch (error) {
+        notify('Error on delete organizations', 'danger');
+      }
     }
   };
 
@@ -75,7 +96,18 @@ function OrganizationList() {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Organizations</CardTitle>
+                <Row className="ml-2">
+                  <CardTitle tag="h4">Organizations</CardTitle>
+                  <Col className="mr-2" align="right">
+                    <Button
+                      className="btn btn-success ml-2"
+                      onClick={() => toggleCreateOrganizationModal()}
+                    >
+                      New
+                      <i className="ml-2 now-ui-icons ui-1_simple-add"/>
+                    </Button>
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody>
               <Table responsive>
@@ -94,7 +126,7 @@ function OrganizationList() {
                       <td>{organization.category}</td>
                       <td>{organization.email}</td>
                       <td className="text-right">
-                      <Button className="btn-sm" color="info" onClick={() => toggleEditModal(organization)}>
+                      <Button className="btn-sm" color="info" onClick={() => toggleEditOrganizationModal(organization)}>
                         Edit
                       </Button>
                       <Button
@@ -115,19 +147,28 @@ function OrganizationList() {
           </Col>
         </Row>
 
-        <Modal isOpen={editModal} toggle={toggleEditModal}>
-          <ModalHeader toggle={toggleEditModal}>Edit Organization</ModalHeader>
+        <Modal isOpen={editOrganizationModal} toggle={toggleEditOrganizationModal}>
+          <ModalHeader toggle={toggleEditOrganizationModal}>Edit Organization</ModalHeader>
           <ModalBody>
-            <OrganizationForm organization={organizationToEdit} create={false}/>
+            <OrganizationForm 
+              create={false} 
+              organization={organizationToEdit} 
+              onSave={handleUpdateOrganization} 
+              onCancel={toggleEditOrganizationModal}
+            />
           </ModalBody>
-          <ModalFooter>
-            <Button color="info" onClick={handleUpdateOrganization}>
-              Save
-            </Button>
-            <Button color="secondary" onClick={toggleEditModal}>
-              Cancel
-            </Button>
-          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={createOrganizationModal} toggle={toggleCreateOrganizationModal}>
+          <ModalHeader toggle={toggleCreateOrganizationModal}>Add Organization</ModalHeader>
+          <ModalBody>
+            <OrganizationForm 
+              create={true} 
+              organization={null} 
+              onSave={handleSaveOrganization} 
+              onCancel={toggleCreateOrganizationModal}
+            />
+          </ModalBody>
         </Modal>
       </div>
     </>
