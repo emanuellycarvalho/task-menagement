@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NotificationAlert from "react-notification-alert";
+import { notificationSettings } from "notify";
 import axios from '../../axios';
 import {
   Button,
@@ -23,7 +24,7 @@ const fetchOrganizations = async (setOrganizations) => {
     const response = await axios.get('/organizations');
     setOrganizations(response.data.data);
   } catch (error) {
-    notify('Error: ' + errror, 'danger');
+    notify('Error: ' + error, 'danger');
   }
 };
 
@@ -45,6 +46,11 @@ function OrganizationList() {
   const handleUpdateOrganization = () => {
     // Lógica para atualizar a organização
     setEditModal(false);
+  };
+
+  const notify = (message, type, icon = "ui-1_bell-53") => {
+    const options = notificationSettings(message, type, icon);
+    notificationAlert.current.notificationAlert(options);    
   };
 
   const handleDeleteOrganization = (organizationId) => {
