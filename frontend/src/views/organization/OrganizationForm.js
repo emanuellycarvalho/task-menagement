@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import {
+  Button,
   FormGroup,
   Form,
   Input,
@@ -8,7 +9,45 @@ import {
   Col,
 } from "reactstrap";
 
-function OrganizationForm({organization, create}) {
+function OrganizationForm({ organization, create, onSave, onCancel }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    category: '',
+    email: '',
+    address: '',
+    city: '',
+    country: '',
+  });
+
+  useEffect(() => {
+    if (!create) {
+      setFormData({
+        name: organization.name || '',
+        category: organization.category || '',
+        email: organization.email || '',
+        address: organization.address || '',
+        city: organization.city || '',
+        country: organization.country || '',
+      });
+    }
+  }, [organization]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = () => {
+    onSave(formData);
+  };
+
+  const handleCancel = () => {
+    onCancel();
+  };
+
   return (
     <div className="content">
       <Row>
@@ -20,9 +59,11 @@ function OrganizationForm({organization, create}) {
                   <label>Name*</label>
                   <Input
                     required
-                    defaultValue={!create ? organization.name : ""}
+                    defaultValue={!create ? formData.name : ""}
+                    name="name"
                     placeholder="Name"
                     type="text"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -31,9 +72,11 @@ function OrganizationForm({organization, create}) {
                   <label>Category</label>
                   <Input
                     required
-                    defaultValue={!create ? organization.category : ""}
-                    placeholder="Category"
+                    defaultValue={!create ? formData.category : ""}
+                    name="category"
+                    placeholder="Category*"
                     type="text"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -42,13 +85,15 @@ function OrganizationForm({organization, create}) {
               <Col className="pr-1" md="6">
                 <FormGroup>
                   <label htmlFor="exampleInputEmail1">
-                    Email address*
+                    Email*
                   </label>
                   <Input
                     required
-                    defaultValue={!create ? organization.email : ""} 
-                    placeholder="example@example.com" 
-                    type="email" 
+                    defaultValue={!create ? formData.email : ""}
+                    name="email"
+                    placeholder="example@example.com"
+                    type="email"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -56,9 +101,11 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>Address</label>
                   <Input
-                    defaultValue={!create ? organization.address : ""}
-                    placeholder="Home Address"
+                    defaultValue={!create ? formData.address : ""}
+                    name="address"
+                    placeholder="Address"
                     type="text"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -68,9 +115,11 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>City</label>
                   <Input
-                    defaultValue={!create ? organization.city : ""}
+                    defaultValue={!create ? formData.city : ""}
+                    name="city"
                     placeholder="City"
                     type="text"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
@@ -78,12 +127,32 @@ function OrganizationForm({organization, create}) {
                 <FormGroup>
                   <label>Country</label>
                   <Input
-                    defaultValue={!create ? organization.country : ""}
+                    defaultValue={!create ? formData.country : ""}
+                    name="country"
                     placeholder="Country"
                     type="text"
+                    onChange={handleInputChange}
                   />
                 </FormGroup>
               </Col>
+            </Row>
+            <Row className="justify-content-end mr-1">
+              <Button
+                className="btn-sm"
+                color="info"
+                type="button"
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+              <Button
+                className="btn-sm"
+                color="secondary"
+                type="button"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
             </Row>
           </Form>
         </Col>
@@ -95,6 +164,8 @@ function OrganizationForm({organization, create}) {
 OrganizationForm.propTypes = {
   organization: PropTypes.object,
   create: PropTypes.bool.isRequired,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default OrganizationForm;
