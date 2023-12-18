@@ -2,6 +2,15 @@ import axios from '../axios';
 
 const API_BASE_URL = '/organizations';
 
+export const fetchOrganizations = async (setOrganizations) => {
+  try {
+    const response = await axios.get(API_BASE_URL);
+    setOrganizations(response.data.data);
+  } catch (error) {
+    console.error('Error getting organizations:', error);
+  }
+};
+
 export const getOrganizations = async () => {
   try {
     const response = await axios.get(API_BASE_URL);
