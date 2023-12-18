@@ -1,23 +1,12 @@
-/*!
-
-=========================================================
-* Now UI Dashboard React - v1.5.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-
-// reactstrap components
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import PanelHeader from "components/PanelHeader/PanelHeader.js";
+import { fetchUsers, createUser, updateUser } from '../../stores/userStore';
+import { fetchOrganizations } from '../../stores/organizationStore';
+import { fetchAccessLevels } from '../../stores/accessLevelStore';
+import NotificationAlert from "react-notification-alert";
+import { notificationSettings } from "notify";
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -30,12 +19,87 @@ import {
   Col,
 } from "reactstrap";
 
-// core components
-import PanelHeader from "components/PanelHeader/PanelHeader.js";
+function UserForm({user, create}) {
+  const [organizations, setOrganizations] = useState([]);
+  const [accessLevels, setAccessLevels] = useState([]);
+  const [passwordError, setPasswordError] = useState("");
+  const [password, setPassword] = useState(user !== null ? user.password : "");
+  const [isSavable, setIsSavable] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState(user !== null ? user.confirmPassword : "");
+  const notificationAlert = React.useRef();
+  const navigate = useNavigate();
 
-function User({user, create}) {
+  useEffect(() => {
+    checkIfIsSavable();
+    fetchOrganizations(setOrganizations);
+    fetchAccessLevels(setAccessLevels);
+  }, [password, confirmPassword]);
+
+  const checkIfIsSavable = () => {
+    setIsSavable(updatePasswordError());
+  };
+
+  const notify = (message, type, icon = "ui-1_bell-53") => {
+    const options = notificationSettings(message, type, icon);
+    notificationAlert.current.notificationAlert(options);    
+  };
+
+  const updatePasswordError = () => {
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords don't match");
+      return false;
+    } else {
+      setPasswordError("");
+      return true;
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleSaveProfile = async () => {
+    const userData = {
+      first_name: document.getElementById("first_name").value,
+      last_name: document.getElementById("last_name").value,
+      nickname: document.getElementById("nickname").value,
+      username: document.getElementById("username").value,
+      email: document.getElementById("email").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      country: document.getElementById("country").value,
+      organization_id: document.getElementById("organization").value,
+      access_level_id: document.getElementById("access_level").value,
+      password: password,
+    };
+
+    try {
+      if (create) {
+        await createUser(userData);
+      } else {
+        userData.id = user.id;
+        await updateUser(userData);
+      }
+
+      await fetchUsers();
+      notify('The profile was saved successfully', 'success');
+
+      setTimeout(() => {
+        navigate('/admin/users');
+      }, 3000);
+
+    } catch (error) {
+      notify('Error: ' + error.response.data.message, 'danger');
+    }
+  };
+
   return (
     <>
+      <NotificationAlert ref={notificationAlert} />
       <PanelHeader size="sm" />
       <div className="content">
         <Row>
@@ -51,8 +115,9 @@ function User({user, create}) {
                       <FormGroup>
                         <label>First Name*</label>
                         <Input
+                          id="first_name"
                           required
-                          value={user !== null ? user.name : ""}
+                          defaultValue={user !== null ? user.name : ""}
                           placeholder="First name"
                           type="text"
                         />
@@ -62,8 +127,9 @@ function User({user, create}) {
                       <FormGroup>
                         <label>Last Name*</label>
                         <Input
+                          id="last_name"
                           required
-                          value={user !== null ? user.lastname : ""}
+                          defaultValue={user !== null ? user.lastname : ""}
                           placeholder="Last Name"
                           type="text"
                         />
@@ -73,8 +139,9 @@ function User({user, create}) {
                       <FormGroup>
                         <label>Nickname*</label>
                         <Input
+                          id="nickname"
                           required
-                          value={user !== null ? user.nickname : ""}
+                          defaultValue={user !== null ? user.nickname : ""}
                           placeholder="How do you wanna be called?"
                           type="text"
                         />
@@ -86,8 +153,9 @@ function User({user, create}) {
                       <FormGroup>
                         <label>Username*</label>
                         <Input
+                          id="username"
                           required
-                          value={user !== null ? user.username : ""}
+                          defaultValue={user !== null ? user.username : ""}
                           placeholder="Letters, numbers and symbols allowed"
                           type="text"
                         />
@@ -99,8 +167,9 @@ function User({user, create}) {
                           Email address*
                         </label>
                         <Input
+                          id="email"
                           required
-                          value={user !== null ? user.email : ""} 
+                          defaultValue={user !== null ? user.email : ""} 
                           placeholder="example@example.com" 
                           type="email" 
                         />
@@ -111,20 +180,49 @@ function User({user, create}) {
                     <Col md="6">
                       <FormGroup>
                         <label>Organization*</label>
-                        <Input
+                        <select
+                          id="organization"
                           required
-                          value={user !== null ? user.company : ""}
-                          disabled
-                          placeholder="Company"
-                          type="text"
-                        />
+                          defaultValue={user !== null && user.organization ? user.organization : ""}
+                          placeholder="Organization"
+                          className="form-control"
+                        >
+                          <option value="" disabled>Select an organization</option>
+                          {organizations.map((organization) => (
+                            <option key={organization.id} value={organization.id}>
+                              {organization.name}
+                            </option>
+                          ))}
+                        </select>
                       </FormGroup>
                     </Col>
-                    <Col className="pr-1" md="6">
+                    <Col md="6">
+                    <FormGroup>
+                        <label>Access level*</label>
+                        <select
+                          id="access_level"
+                          required
+                          defaultValue={user !== null && user.access_level ? user.access_level : ""}
+                          placeholder="Access level"
+                          className="form-control"
+                        >
+                          <option value="" disabled>Select an access level</option>
+                          {accessLevels.map((access_level) => (
+                            <option key={access_level.id} value={access_level.id}>
+                              {access_level.name}
+                            </option>
+                          ))}
+                        </select>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
                       <FormGroup>
                         <label>Address</label>
                         <Input
-                          value={user !== null ? user.address : ""}
+                          id="address"
+                          defaultValue={user !== null ? user.address : ""}
                           placeholder="Home Address"
                           type="text"
                         />
@@ -136,7 +234,8 @@ function User({user, create}) {
                       <FormGroup>
                         <label>City</label>
                         <Input
-                          value={user !== null ? user.city : ""}
+                          id="city"
+                          defaultValue={user !== null ? user.city : ""}
                           placeholder="City"
                           type="text"
                         />
@@ -146,10 +245,38 @@ function User({user, create}) {
                       <FormGroup>
                         <label>Country</label>
                         <Input
-                          value={user !== null ? user.country : ""}
+                          id="country"
+                          defaultValue={user !== null ? user.country : ""}
                           placeholder="Country"
                           type="text"
                         />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="pr-1" md="6">
+                      <FormGroup>
+                        <label>Password*</label>
+                        <Input
+                          id="password"
+                          value={password}
+                          placeholder="Password"
+                          type="password"
+                          autoComplete="new-password"
+                          onChange={handlePasswordChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <label>Confirm password*</label>
+                        <Input
+                          value={confirmPassword}
+                          placeholder="Confirm password"
+                          type="password"
+                          onChange={handleConfirmPasswordChange}
+                        />
+                        {passwordError && <p className="error-message ml-1">{passwordError}</p>}
                       </FormGroup>
                     </Col>
                   </Row>
@@ -173,7 +300,8 @@ function User({user, create}) {
             color="success"
             id="update-password"
             type="button"
-            disabled
+            disabled={!isSavable}
+            onClick={handleSaveProfile}
           >
             Save profile
           </Button>
@@ -183,4 +311,9 @@ function User({user, create}) {
   );
 }
 
-export default User;
+UserForm.propTypes = {
+  create: PropTypes.bool.isRequired,
+  user: PropTypes.object,
+};
+
+export default UserForm;

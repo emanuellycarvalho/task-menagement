@@ -36,4 +36,18 @@ class OrganizationRequest extends BaseRequest
 
         return $this->updateLogic($rules);
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'required' => 'The :attribute field is required.',
+            'email' => 'The :attribute must be a valid email address.',
+            'unique' => 'The :attribute has already been taken.',
+        ];
+    }
 }
