@@ -25,7 +25,7 @@ const fetchOrganizations = async (setOrganizations) => {
     const response = await axios.get('/organizations');
     setOrganizations(response.data.data);
   } catch (error) {
-    notify('Error: ' + error, 'danger');
+    notify('Error: ' +  error.response.data.message, 'danger');
   }
 };
 
@@ -68,7 +68,7 @@ function OrganizationList() {
       fetchOrganizations(setOrganizations);
       toggleEditOrganizationModal(organizationData);
     } catch (error) {
-      notify('Error updating organization: ' + error, 'success');
+      notify('Error: ' +  error.response.data.message, 'success');
     }
   };
 
@@ -79,7 +79,7 @@ function OrganizationList() {
       fetchOrganizations(setOrganizations);
       toggleCreateOrganizationModal();
     } catch (error) {
-      notify('Error creating organization: ' + error, 'success');
+      notify('Error: ' +  error.response.data.message, 'success');
     }
   };
 
@@ -90,7 +90,7 @@ function OrganizationList() {
         fetchOrganizations(setOrganizations);
         notify('Organization deleted successfully', 'success');
       } catch (error) {
-        notify('Error on delete organizations', 'danger');
+        notify('Error: ' +  error.response.data.message, 'danger');
       }
     }
   };

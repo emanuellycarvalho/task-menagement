@@ -56,7 +56,7 @@ function UserList() {
       fetchUsers(setUsers);
       toggleEditUserModal(userData);
     } catch (error) {
-      notify('Error updating user: ' + error, 'success');
+      notify('Error: ' + error.response.data.message, 'success');
     }
   };
 
@@ -67,7 +67,7 @@ function UserList() {
       fetchUsers(setUsers);
       toggleCreateUserModal();
     } catch (error) {
-      notify('Error creating user: ' + error, 'success');
+      notify('Error: ' + error, 'success');
     }
   };
 
@@ -78,7 +78,7 @@ function UserList() {
         fetchUsers(setUsers);
         notify('User deleted successfully', 'success');
       } catch (error) {
-        notify('Error on delete users', 'danger');
+        notify('Error: ' +  error.response.data.message, 'danger');
       }
     }
   };

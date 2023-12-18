@@ -4,7 +4,7 @@ const API_BASE_URL = '/users';
 
 export const fetchUsers = async (setUsers) => {
   try {
-    const response = await axios.get('/users');
+    const response = await axios.get(API_BASE_URL);
     let users = response.data.data;
     users = users.map((item) => {
       item.name = item.first_name + ' ' + item.last_name;
@@ -13,7 +13,7 @@ export const fetchUsers = async (setUsers) => {
 
     setUsers(users);
   } catch (error) {
-    notify('Error: ' + error, 'danger');
+    console.error('Error getting users:', error);
   }
 };
 
