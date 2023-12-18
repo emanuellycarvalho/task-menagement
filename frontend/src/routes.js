@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Now UI Dashboard React - v1.5.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
@@ -26,6 +9,7 @@ import UserPage from "views/UserPage.js";
 import UserForm from "components/User/UserForm.js";
 import OrganizationForm from "components/Organization/OrganizationForm.js";
 import OrganizationList from "components/Organization/OrganizationList.js";
+import UserList from "components/User/UsersList.js";
 
 const dashRoutes = [
   {
@@ -57,6 +41,14 @@ const dashRoutes = [
     name: "Organizations",
     icon: "business_badge",
     component: <OrganizationList />,
+    layout: "/admin",
+    sidebar: true,
+  },
+  {
+    path: "/users",
+    name: "Users",
+    icon: "users_single-02",
+    component: <UserList />,
     layout: "/admin",
     sidebar: true,
   },

@@ -51,6 +51,21 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $with = [
+        'organization',
+        'access_level'
+    ];
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+    
     /**
      * Get the organization that the user belongs to.
      */
