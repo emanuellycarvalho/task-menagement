@@ -15,6 +15,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+
+/* CUSTOM */
+.error-message {
+  color: red;
+  font-size: 0.7em;
+}
+
+/* ORIGINAL */
 .tim-row {
   margin-bottom: 20px;
 }
