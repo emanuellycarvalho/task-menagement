@@ -81,4 +81,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(AccessLevel::class);
     }
+
+    /**
+     * Get the task lists that the user belongs to.
+     */
+    public function task_lists()
+    {
+        return $this->hasMany(TaskList::class);
+    }
 }
