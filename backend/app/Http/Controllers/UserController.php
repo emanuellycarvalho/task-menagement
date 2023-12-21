@@ -39,10 +39,23 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user): JsonResponse
     {
         if($request->has('password') && !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'The password is incorrect.'], 422);
+            return response()->json(['message' => "User's password is incorrect."], 422);
         }
 
         $user = $this->userService->updateUser($user, $request->all());
+        return response()->jsonResponseSuccessNoData('Success on update', 200);
+    }
+
+    public function updatePassword(Request $request, User $user): JsonResponse
+    {
+        if($request->has('old_password') && !Hash::check($request->old_password, $user->password)) {
+            return response()->json(['message' => 'The old password is incorrect.'], 422);
+        }
+
+        $request = $request->all();
+        $data['password'] = Hash::make($request['password']);
+
+        $user = $this->userService->updateUser($user, $data);
         return response()->jsonResponseSuccessNoData('Success on update', 200);
     }
 

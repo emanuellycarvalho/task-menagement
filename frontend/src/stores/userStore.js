@@ -65,6 +65,16 @@ export const updateUser = async (userData) => {
   }
 };
 
+export const updateUsersPassword = async (userData) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${userData.id}/update-password`, userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user's password: ", error);
+    throw error;
+  }
+};
+
 export const deleteUser = async (userId) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/${userId}`);

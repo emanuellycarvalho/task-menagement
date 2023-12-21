@@ -23,7 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('organizations', OrganizationController::class);
+
 Route::apiResource('users', UserController::class);
+Route::put('users/{user}/update-password', [UserController::class, 'updatePassword']);
 
 Route::get('access_levels', function(){
     return response()->jsonResponseSuccess(AccessLevel::all());

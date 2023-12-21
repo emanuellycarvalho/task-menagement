@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
-import { fetchUsers, createUser, updateUser } from '../../stores/userStore';
+import { createUser, updateUser, updateUsersPassword } from '../../stores/userStore';
 import { fetchOrganizations } from '../../stores/organizationStore';
 import { fetchAccessLevels } from '../../stores/accessLevelStore';
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
 import { useNavigate, useLocation } from 'react-router-dom';
+import UpdatePasswordModal from "./UpdatePasswordModal";
+
 import {
   Button,
   Card,
@@ -31,6 +33,7 @@ function UserForm({create}) {
   const [password, setPassword] = useState(user ? user.password : "");
   const [isSavable, setIsSavable] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState(user ? user.confirmPassword : "");
+  const [updatePasswordModalOpen, setUpdatePasswordModalOpen] = useState(false);
   const notificationAlert = React.useRef();
   const navigate = useNavigate();
 
@@ -101,6 +104,25 @@ function UserForm({create}) {
       notify('Error: ' + error.response.data.message, 'danger');
     }
   };
+
+  const toggleUpdatePasswordModal = () => {
+    setUpdatePasswordModalOpen(!updatePasswordModalOpen);
+  };
+
+  const handleUpdatePassword = async (oldPassword, password) => {
+    const userData = {
+      id: user.id,
+      old_password: oldPassword,
+      password: password
+    };
+    try {
+      await updateUsersPassword(userData);
+      notify('The new password was set successfully', 'success');
+      toggleUpdatePasswordModal();
+    } catch (error) {
+      notify('Error: ' + error.response.data.message, 'danger');
+    }
+  }
 
   return (
     <>
@@ -297,6 +319,7 @@ function UserForm({create}) {
             color="warning"
             id="update-password"
             type="button"
+            onClick={toggleUpdatePasswordModal}
           >
             Update password
           </Button>
@@ -311,6 +334,12 @@ function UserForm({create}) {
             Save profile
           </Button>
         </Row>
+
+        <UpdatePasswordModal 
+          isOpen={updatePasswordModalOpen} 
+          toggle={toggleUpdatePasswordModal} 
+          handleUpdatePassword={handleUpdatePassword}
+        />
       </div>
     </>
   );
