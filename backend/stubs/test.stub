@@ -1,9 +1,11 @@
 <?php
+
 namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\{{Model}};
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\{{Model}}Controller;
 
 class {{Model}}Test extends TestCase
@@ -12,48 +14,67 @@ class {{Model}}Test extends TestCase
 
     public function test_can_create_{{model}}()
     {
-        $data = [
+        try {
+            $data = [
 
-        ];
+            ];
 
-        $response = $this->postJson('/api/{{model}}s', $data);
+            $response = $this->postJson('/api/{{model}}s', $data);
 
-        $response->assertStatus(201);
-        $this->assertDatabaseHas('{{model}}s', $data);
+            $response->assertStatus(201);
+            $this->assertDatabaseHas('{{model}}s', $data);
+        } catch (\Exception $e) {
+            Log::error("Error in test_can_create_{{model}}: " . $e->getMessage());
+            $this->fail($e->getMessage());
+        }
     }
 
     public function test_can_read_{{model}}()
     {
-        ${{model}} = {{Model}}::factory()->create();
+        try {
+            ${{model}} = {{Model}}::factory()->create();
 
-        $response = $this->getJson("/api/{{model}}s/{${{model}}->id}");
+            $response = $this->getJson("/api/{{model}}s/{${{model}}->id}");
 
-        $response->assertStatus(200);
-        $response->assertJsonFragment(${{model}}->toArray());
+            $response->assertStatus(200);
+            $response->assertJsonFragment(${{model}}->toArray());
+        } catch (\Exception $e) {
+            Log::error("Error in test_can_read_{{model}}: " . $e->getMessage());
+            $this->fail($e->getMessage());
+        }
     }
 
     public function test_can_update_{{model}}()
     {
-        ${{model}} = {{Model}}::factory()->create();
+        try {
+            ${{model}} = {{Model}}::factory()->create();
 
-        $updatedData = [
+            $updatedData = [
 
-        ];
+            ];
 
-        $response = $this->putJson("/api/{{model}}s/{${{model}}->id}", $updatedData);
+            $response = $this->putJson("/api/{{model}}s/{${{model}}->id}", $updatedData);
 
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('{{model}}s', $updatedData);
+            $response->assertStatus(200);
+            $this->assertDatabaseHas('{{model}}s', $updatedData);
+        } catch (\Exception $e) {
+            Log::error("Error in test_can_update_{{model}}: " . $e->getMessage());
+            $this->fail($e->getMessage());
+        }
     }
 
     public function test_can_delete_{{model}}()
     {
-        ${{model}} = {{Model}}::factory()->create();
+        try {
+            ${{model}} = {{Model}}::factory()->create();
 
-        $response = $this->deleteJson("/api/{{model}}s/{${{model}}->id}");
+            $response = $this->deleteJson("/api/{{model}}s/{${{model}}->id}");
 
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('{{model}}s', ['id' => ${{model}}->id]);
+            $response->assertStatus(204);
+            $this->assertDatabaseMissing('{{model}}s', ['id' => ${{model}}->id]);
+        } catch (\Exception $e) {
+            Log::error("Error in test_can_delete_{{model}}: " . $e->getMessage());
+            $this->fail($e->getMessage());
+        }
     }
 }
-
