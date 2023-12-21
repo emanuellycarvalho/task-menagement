@@ -25,4 +25,12 @@ class TaskList extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    /**
+     * Get the tasks associated with the task list.
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
