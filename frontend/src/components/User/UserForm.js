@@ -6,7 +6,7 @@ import { fetchOrganizations } from '../../stores/organizationStore';
 import { fetchAccessLevels } from '../../stores/accessLevelStore';
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -19,13 +19,18 @@ import {
   Col,
 } from "reactstrap";
 
-function UserForm({user, create}) {
+function UserForm({create}) {
+  const location = useLocation();
+  const { user } = location.state ? location.state : {};
+
   const [organizations, setOrganizations] = useState([]);
   const [accessLevels, setAccessLevels] = useState([]);
+  const [organizationId, setOrganizationId] = useState(user ? user.organization_id : "");
+  const [accessLevelId, setAccessLevelId] = useState(user ? user.access_level_id : "");
   const [passwordError, setPasswordError] = useState("");
-  const [password, setPassword] = useState(user !== null ? user.password : "");
+  const [password, setPassword] = useState(user ? user.password : "");
   const [isSavable, setIsSavable] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState(user !== null ? user.confirmPassword : "");
+  const [confirmPassword, setConfirmPassword] = useState(user ? user.confirmPassword : "");
   const notificationAlert = React.useRef();
   const navigate = useNavigate();
 
@@ -78,6 +83,7 @@ function UserForm({user, create}) {
     };
 
     try {
+      console.log(create)
       if (create) {
         await createUser(userData);
       } else {
@@ -85,7 +91,6 @@ function UserForm({user, create}) {
         await updateUser(userData);
       }
 
-      await fetchUsers();
       notify('The profile was saved successfully', 'success');
 
       setTimeout(() => {
@@ -117,7 +122,7 @@ function UserForm({user, create}) {
                         <Input
                           id="first_name"
                           required
-                          defaultValue={user !== null ? user.name : ""}
+                          defaultValue={user ? user.first_name : ""}
                           placeholder="First name"
                           type="text"
                         />
@@ -129,7 +134,7 @@ function UserForm({user, create}) {
                         <Input
                           id="last_name"
                           required
-                          defaultValue={user !== null ? user.lastname : ""}
+                          defaultValue={user ? user.last_name : ""}
                           placeholder="Last Name"
                           type="text"
                         />
@@ -141,7 +146,7 @@ function UserForm({user, create}) {
                         <Input
                           id="nickname"
                           required
-                          defaultValue={user !== null ? user.nickname : ""}
+                          defaultValue={user ? user.nickname : ""}
                           placeholder="How do you wanna be called?"
                           type="text"
                         />
@@ -155,7 +160,7 @@ function UserForm({user, create}) {
                         <Input
                           id="username"
                           required
-                          defaultValue={user !== null ? user.username : ""}
+                          defaultValue={user ? user.username : ""}
                           placeholder="Letters, numbers and symbols allowed"
                           type="text"
                         />
@@ -169,7 +174,7 @@ function UserForm({user, create}) {
                         <Input
                           id="email"
                           required
-                          defaultValue={user !== null ? user.email : ""} 
+                          defaultValue={user ? user.email : ""} 
                           placeholder="example@example.com" 
                           type="email" 
                         />
@@ -183,8 +188,8 @@ function UserForm({user, create}) {
                         <select
                           id="organization"
                           required
-                          defaultValue={user !== null && user.organization ? user.organization : ""}
-                          placeholder="Organization"
+                          value={organizationId}
+                          onChange={(e) => setOrganizationId(e.target.value)}
                           className="form-control"
                         >
                           <option value="" disabled>Select an organization</option>
@@ -197,13 +202,13 @@ function UserForm({user, create}) {
                       </FormGroup>
                     </Col>
                     <Col md="6">
-                    <FormGroup>
+                      <FormGroup>
                         <label>Access level*</label>
                         <select
                           id="access_level"
                           required
-                          defaultValue={user !== null && user.access_level ? user.access_level : ""}
-                          placeholder="Access level"
+                          value={accessLevelId}
+                          onChange={(e) => setAccessLevelId(e.target.value)}
                           className="form-control"
                         >
                           <option value="" disabled>Select an access level</option>
@@ -222,7 +227,7 @@ function UserForm({user, create}) {
                         <label>Address</label>
                         <Input
                           id="address"
-                          defaultValue={user !== null ? user.address : ""}
+                          defaultValue={user ? user.address : ""}
                           placeholder="Home Address"
                           type="text"
                         />
@@ -235,7 +240,7 @@ function UserForm({user, create}) {
                         <label>City</label>
                         <Input
                           id="city"
-                          defaultValue={user !== null ? user.city : ""}
+                          defaultValue={user ? user.city : ""}
                           placeholder="City"
                           type="text"
                         />
@@ -246,7 +251,7 @@ function UserForm({user, create}) {
                         <label>Country</label>
                         <Input
                           id="country"
-                          defaultValue={user !== null ? user.country : ""}
+                          defaultValue={user ? user.country : ""}
                           placeholder="Country"
                           type="text"
                         />
@@ -313,7 +318,6 @@ function UserForm({user, create}) {
 
 UserForm.propTypes = {
   create: PropTypes.bool.isRequired,
-  user: PropTypes.object,
 };
 
 export default UserForm;

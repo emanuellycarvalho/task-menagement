@@ -14,17 +14,17 @@ import UserList from "components/User/UsersList.js";
 const dashRoutes = [
   {
     path: "/user/add",
-    name: "User Profile",
+    name: "New User",
     icon: "users_single-02",
-    component: <UserForm user={null} create={true}/>,
+    component: <UserForm create={true}/>,
     layout: "/admin",
     sidebar: false,
   },
   {
-    path: "/organization/add",
-    name: "User Profile",
+    path: "/user/:userId/edit",
+    name: "Edit User",
     icon: "users_single-02",
-    component: <OrganizationForm organization={null} create={true}/>,
+    component: <UserForm create={false}/>,
     layout: "/admin",
     sidebar: false,
   },

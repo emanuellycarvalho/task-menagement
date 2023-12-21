@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import NotificationAlert from "react-notification-alert";
 import { notificationSettings } from "notify";
 import { Link } from "react-router-dom";
-import { fetchUsers, createUser, deleteUser, updateUser } from '../../stores/userStore';
-import axios from '../../axios';
+import { fetchUsers, deleteUser } from '../../stores/userStore';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -25,10 +25,15 @@ function UserList() {
   const [userToView, setUserToView] = useState(null);
   const [users, setUsers] = useState([]);
   const notificationAlert = React.useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers(setUsers);
   }, []);
+
+  const handleEditUser = (user) => {
+    navigate(`/admin/user/${user.id}/edit`, { state: { user } });
+  };
 
   const toggleViewUserModal = (user) => {
     setUserToView(user);
@@ -47,28 +52,6 @@ function UserList() {
   const notify = (message, type, icon = "ui-1_bell-53") => {
     const options = notificationSettings(message, type, icon);
     notificationAlert.current.notificationAlert(options);    
-  };
-
-  const handleUpdateUser = async (userData) => {
-    try {
-      await updateUser(userData);
-      notify('User updated successfully', 'success');
-      fetchUsers(setUsers);
-      toggleEditUserModal(userData);
-    } catch (error) {
-      notify('Error: ' + error.response.data.message, 'success');
-    }
-  };
-
-  const handleSaveUser = async (userData) => {
-    try {
-      await createUser(userData);
-      notify('User created successfully', 'success');
-      fetchUsers(setUsers);
-      toggleCreateUserModal();
-    } catch (error) {
-      notify('Error: ' + error, 'success');
-    }
   };
 
   const handleDeleteUser = async (userId) => {
@@ -129,10 +112,9 @@ function UserList() {
                       >
                         View
                       </Button>
-                      <Button 
-                        className="btn-sm ml-1" 
-                        color="info" 
-                        onClick={() => toggleEditUserModal(user)}
+                      <Button
+                        className="btn btn-sm btn-info ml-1"
+                        onClick={() => handleEditUser(user)}
                       >
                         Edit
                       </Button>

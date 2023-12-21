@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -37,6 +38,10 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user): JsonResponse
     {
+        if($request->has('password') && !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'The password is incorrect.'], 422);
+        }
+
         $user = $this->userService->updateUser($user, $request->all());
         return response()->jsonResponseSuccessNoData('Success on update', 200);
     }

@@ -25,8 +25,8 @@ class UserRequest extends BaseRequest
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . optional($this->user())->id,
-            'email' => 'required|email|max:255|unique:users,email,' . optional($this->user())->id,
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
             'password' => 'required|string|min:8',
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
@@ -34,6 +34,11 @@ class UserRequest extends BaseRequest
             'organization_id' => 'required|exists:organizations,id',
             'access_level_id' => 'required|exists:access_levels,id',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['email'] .= '|unique:users,email,' . optional($this->user())->id;
+            $rules['username'] .= '|unique:users,username,' . optional($this->user())->id;
+        }
 
         return $this->updateLogic($rules);
     }
