@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\TaskList;
 
 class TaskListSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class TaskListSeeder extends Seeder
      */
     public function run(): void
     {
-        Organization::factory()->count(10)->create();
+        TaskList::factory()->count(10)->create();
     }
 }
