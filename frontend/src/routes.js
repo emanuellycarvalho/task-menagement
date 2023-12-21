@@ -9,7 +9,8 @@ import UserPage from "views/UserPage.js";
 import UserForm from "components/User/UserForm.js";
 import OrganizationForm from "components/Organization/OrganizationForm.js";
 import OrganizationList from "components/Organization/OrganizationList.js";
-import UserList from "components/User/UsersList.js";
+import TaskList from "components/Task/TaskList.js";
+import UserList from "components/User/UserList.js";
 
 const dashRoutes = [
   {
@@ -53,6 +54,14 @@ const dashRoutes = [
     sidebar: true,
   },
   {
+    path: "/tasks",
+    name: "Tasks",
+    icon: "design_bullet-list-67",
+    component: <TaskList />,
+    layout: "/admin",
+    sidebar: true,
+  },
+  {
     path: "/icons",
     name: "Icons",
     icon: "design_image",
@@ -66,7 +75,7 @@ const dashRoutes = [
     icon: "location_map-big",
     component: <Maps />,
     layout: "/admin",
-    sidebar: true,
+    sidebar: false,
   },
   {
     path: "/notifications",
@@ -74,7 +83,7 @@ const dashRoutes = [
     icon: "ui-1_bell-53",
     component: <Notifications />,
     layout: "/admin",
-    sidebar: true,
+    sidebar: false,
   },
   {
     path: "/user-page",
@@ -82,7 +91,7 @@ const dashRoutes = [
     icon: "users_single-02",
     component: <UserPage />,
     layout: "/admin",
-    sidebar: true,
+    sidebar: false,
   },
   {
     path: "/extended-tables",
@@ -90,7 +99,7 @@ const dashRoutes = [
     icon: "files_paper",
     component: <TableList />,
     layout: "/admin",
-    sidebar: true,
+    sidebar: false,
   },
   {
     path: "/typography",
@@ -98,16 +107,7 @@ const dashRoutes = [
     icon: "design-2_ruler-pencil",
     component: <Typography />,
     layout: "/admin",
-    sidebar: true,
-  },
-  {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "objects_spaceship",
-    component: <Upgrade />,
-    layout: "/admin",
-    sidebar: true,
+    sidebar: false,
   },
 ];
 export default dashRoutes;
