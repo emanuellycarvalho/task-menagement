@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{{Model}};
 use App\Services\{{Model}}Service;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\{{Model}}Request;
 
 
 class {{Model}}Controller extends Controller
