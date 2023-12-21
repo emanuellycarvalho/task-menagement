@@ -26,7 +26,7 @@ class TaskListRequest extends FormRequest
         ];
 
         if ($this->isMethod('post')) {
-            $rules['label'] .= '|unique:task_lists,label,' . optional($this->user())->id;
+            $rules['label'] .= '|unique:task_lists,label';
         }
 
         return $rules;

@@ -15,13 +15,16 @@ class TaskTest extends TestCase
 
     public function test_can_create_task()
     {
+        $user = User::factory()->create();
+        $taskList = TaskList::factory()->create();
+
         try {
             $data = [
                 'name' => 'Task',
                 'description' => 'Description',
-                'creator_id' => User::inRandomOrder()->first()->id,
-                'assigned_id' => User::inRandomOrder()->first()->id,
-                'task_list_id' => TaskList::inRandomOrder()->first()->id,
+                'creator_id' => $user->id,
+                'assigned_id' => $user->id,
+                'task_list_id' => $taskList->id,
             ];
 
             $response = $this->postJson('/api/tasks', $data);
@@ -53,13 +56,15 @@ class TaskTest extends TestCase
     {
         try {
             $task = Task::factory()->create();
+            $user = User::factory()->create();
+            $taskList = TaskList::factory()->create();
 
             $updatedData = [
                 'name' => 'Updated task',
                 'description' => 'Updated description',
-                'creator_id' => User::inRandomOrder()->first()->id,
-                'assigned_id' => User::inRandomOrder()->first()->id,
-                'task_list_id' => TaskList::inRandomOrder()->first()->id,
+                'creator_id' => $user->id,
+                'assigned_id' => $user->id,
+                'task_list_id' => $taskList->id,
             ];
 
             $response = $this->putJson("/api/tasks/{$task->id}", $updatedData);

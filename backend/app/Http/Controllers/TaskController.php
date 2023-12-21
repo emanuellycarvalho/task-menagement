@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\TaskRequest;
 
 
 class TaskController extends Controller

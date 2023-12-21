@@ -16,9 +16,11 @@ class TaskListTest extends TestCase
     public function test_can_create_tasklist()
     {
         try {
+            $user = User::factory()->create();
+
             $data = [
                 'label' => 'Label',
-                'creator_id' => User::inRandomOrder()->first()->id,
+                'creator_id' => $user->id,
             ];
 
             $response = $this->postJson('/api/tasklists', $data);
@@ -35,7 +37,6 @@ class TaskListTest extends TestCase
     {
         try {
             $tasklist = TaskList::factory()->create();
-
             $response = $this->getJson("/api/tasklists/{$tasklist->id}");
 
             $response->assertStatus(200);
