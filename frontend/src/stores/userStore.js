@@ -1,4 +1,4 @@
-import axios from '../axios';
+import axios from '../boot/axios';
 
 const API_BASE_URL = '/users';
 
