@@ -51,7 +51,7 @@ function Dashboard() {
       notify('Organization created successfully', 'success');
       toggleCreateOrganizationModal();
     } catch (error) {
-      notify('Error: ' +  error.response.data.message, 'success');
+      notify('Error: ' +  error.response.data.message, 'danger');
     }
   };
 

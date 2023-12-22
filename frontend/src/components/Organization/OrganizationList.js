@@ -59,7 +59,7 @@ function OrganizationList() {
       await fetchOrganizations(setOrganizations);
       toggleEditOrganizationModal(organizationData);
     } catch (error) {
-      notify('Error: ' +  error.response.data.message, 'success');
+      notify('Error: ' +  error.response.data.message, 'danger');
     }
   };
 
@@ -70,7 +70,7 @@ function OrganizationList() {
       await fetchOrganizations(setOrganizations);
       toggleCreateOrganizationModal();
     } catch (error) {
-      notify('Error: ' +  error.response.data.message, 'success');
+      notify('Error: ' +  error.response.data.message, 'danger');
     }
   };
 
