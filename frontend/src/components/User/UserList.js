@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NotificationAlert from "react-notification-alert";
-import { notificationSettings } from "notify";
+import { notificationSettings } from "../../boot/notify";
 import { Link } from "react-router-dom";
 import { fetchUsers, deleteUser } from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';

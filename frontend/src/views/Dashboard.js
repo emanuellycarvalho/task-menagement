@@ -4,7 +4,7 @@ import React, {  useState } from 'react';
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import OrganizationForm from "components/Organization/OrganizationForm.js";
 import NotificationAlert from "react-notification-alert";
-import { notificationSettings } from "notify";
+import { notificationSettings } from "../boot/notify";
 import { createOrganization } from '../stores/organizationStore';
 
 import {

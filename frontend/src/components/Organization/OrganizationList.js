@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import NotificationAlert from "react-notification-alert";
-import { notificationSettings } from "notify";
-import { createOrganization, deleteOrganization, updateOrganization } from '../../stores/organizationStore';
-import axios from '../../axios';
+import { notificationSettings } from "../../boot/notify";
+import { fetchOrganizations, createOrganization, deleteOrganization, updateOrganization } from '../../stores/organizationStore';
+
 import {
   Button,
   Card,
@@ -20,15 +20,6 @@ import PanelHeader from 'components/PanelHeader/PanelHeader.js';
 import OrganizationForm from "components/Organization/OrganizationForm.js";
 import OrganizationModal from "components/Organization/OrganizationModal.js";
 
-const fetchOrganizations = async (setOrganizations) => {
-  try {
-    const response = await axios.get('/organizations');
-    setOrganizations(response.data.data);
-  } catch (error) {
-    notify('Error: ' +  error.response.data.message, 'danger');
-  }
-};
-
 function OrganizationList() {
   const [createOrganizationModal, setCreateOrganizationModal] = useState(false);
   const [editOrganizationModal, setEditOrganizationModal] = useState(false);
@@ -38,8 +29,8 @@ function OrganizationList() {
   const [organizations, setOrganizations] = useState([]);
   const notificationAlert = React.useRef();
 
-  useEffect(() => {
-    fetchOrganizations(setOrganizations);
+  useEffect(async () => {
+    await fetchOrganizations(setOrganizations);
   }, []);
 
   const toggleViewOrganizationModal = (organization) => {
@@ -65,7 +56,7 @@ function OrganizationList() {
     try {
       await updateOrganization(organizationData);
       notify('Organization updated successfully', 'success');
-      fetchOrganizations(setOrganizations);
+      await fetchOrganizations(setOrganizations);
       toggleEditOrganizationModal(organizationData);
     } catch (error) {
       notify('Error: ' +  error.response.data.message, 'success');
@@ -76,7 +67,7 @@ function OrganizationList() {
     try {
       await createOrganization(organizationData);
       notify('Organization created successfully', 'success');
-      fetchOrganizations(setOrganizations);
+      await fetchOrganizations(setOrganizations);
       toggleCreateOrganizationModal();
     } catch (error) {
       notify('Error: ' +  error.response.data.message, 'success');
@@ -87,7 +78,7 @@ function OrganizationList() {
     if (window.confirm('Are you sure you want to delete this organization?')){
       try {
         await deleteOrganization(organizationId);
-        fetchOrganizations(setOrganizations);
+        await fetchOrganizations(setOrganizations);
         notify('Organization deleted successfully', 'success');
       } catch (error) {
         notify('Error: ' +  error.response.data.message, 'danger');

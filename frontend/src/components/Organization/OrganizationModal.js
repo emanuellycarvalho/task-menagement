@@ -33,8 +33,8 @@ const OrganizationModal = ({ isOpen, toggle, organization }) => {
 
 OrganizationModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  toggle: PropTypes.bool.isRequired,
-  organization: PropTypes.object.isRequired,
+  toggle: PropTypes.func.isRequired,
+  organization: PropTypes.object,
 };
 
 export default OrganizationModal;

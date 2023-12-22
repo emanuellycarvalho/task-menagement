@@ -5,7 +5,7 @@ import { createUser, updateUser, updateUsersPassword } from '../../stores/userSt
 import { fetchOrganizations } from '../../stores/organizationStore';
 import { fetchAccessLevels } from '../../stores/accessLevelStore';
 import NotificationAlert from "react-notification-alert";
-import { notificationSettings } from "notify";
+import { notificationSettings } from "../../boot/notify";
 import { useNavigate, useLocation } from 'react-router-dom';
 import UpdatePasswordModal from "./UpdatePasswordModal";
 
