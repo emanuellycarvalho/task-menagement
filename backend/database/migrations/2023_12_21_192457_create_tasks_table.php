@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->boolean('is_done')->default(false);
             $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('assigned_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('task_list_id')->constrained('task_lists')->onDelete('cascade');
