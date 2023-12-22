@@ -11,6 +11,10 @@ export function calculateTimeDifference(dateTime) {
         return hoursDifference + ' hours';
     } 
     
+    if (minutesDifference < 2) {
+        return minutesDifference + ' minute';
+    }
+    
     return minutesDifference + ' minutes';
 }
   
