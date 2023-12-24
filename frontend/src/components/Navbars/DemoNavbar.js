@@ -158,13 +158,21 @@ function DemoNavbar(props) {
                 </p>
               </Link>
             </NavItem>
+            <NavItem>
+              <Link to="#pablo" className="nav-link">
+                <i className="now-ui-icons location_world" />
+                <p>
+                  <span className="d-lg-none d-md-block">Account</span>
+                </p>
+              </Link>
+            </NavItem>
             <Dropdown
               nav
               isOpen={dropdownOpen}
               toggle={(e) => dropdownToggle(e)}
             >
               <DropdownToggle caret nav>
-                <i className="now-ui-icons location_world" />
+                <i className="now-ui-icons users_single-02" />
                 <p>
                   <span className="d-lg-none d-md-block">Some Actions</span>
                 </p>
@@ -175,14 +183,6 @@ function DemoNavbar(props) {
                 <DropdownItem tag="a">Something else here</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <NavItem>
-              <Link to="#pablo" className="nav-link">
-                <i className="now-ui-icons users_single-02" />
-                <p>
-                  <span className="d-lg-none d-md-block">Account</span>
-                </p>
-              </Link>
-            </NavItem>
           </Nav>
         </Collapse>
       </Container>
