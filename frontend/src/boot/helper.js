@@ -8,6 +8,15 @@ export function calculateTimeDifference(dateTime) {
 
     if (minutesDifference > 59) {
         const hoursDifference = Math.floor(minutesDifference / 60);
+        if (hoursDifference > 23 && hoursDifference < 48) {
+            return '1 day';
+        }
+
+        if (hoursDifference > 47) {
+            const daysDifference = Math.floor(hoursDifference / 24);
+            return daysDifference + ' days';
+        }
+        
         return hoursDifference + ' hours';
     } 
     
