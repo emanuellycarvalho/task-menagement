@@ -34,5 +34,20 @@ class AppServiceProvider extends ServiceProvider
                 'message' => $message,
             ], $statusCode);
         });
+
+        Response::macro('jsonResponseFail', function ($data, $message = 'Fail', $statusCode = 500) {
+            return response()->json([
+                'success' => false,
+                'data' => $data,
+                'message' => $message,
+            ], $statusCode);
+        });
+
+        Response::macro('jsonResponseFailNoData', function ($message = 'Fail', $statusCode = 500) {
+            return response()->json([
+                'success' => false,
+                'message' => $message,
+            ], $statusCode);
+        });
     }
 }
