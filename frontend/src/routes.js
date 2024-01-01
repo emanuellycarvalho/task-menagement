@@ -4,13 +4,12 @@ import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
 import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
-import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import UserForm from "components/User/UserForm.js";
-import OrganizationForm from "components/Organization/OrganizationForm.js";
 import OrganizationList from "components/Organization/OrganizationList.js";
 import TaskList from "components/Task/TaskList.js";
 import UserList from "components/User/UserList.js";
+import LoginForm from "views/LoginForm";
 
 const dashRoutes = [
   {
@@ -28,6 +27,14 @@ const dashRoutes = [
     component: <UserForm create={false}/>,
     layout: "/admin",
     sidebar: false,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    icon: "users_single-02",
+    component: <LoginForm/>,
+    layout: "/admin",
+    sidebar: true,
   },
   {
     path: "/dashboard",
